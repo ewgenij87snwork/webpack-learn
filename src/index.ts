@@ -1,4 +1,4 @@
-import {calc} from "./test";
+import { calc } from "./test";
 
 
 console.log(' Hello!');

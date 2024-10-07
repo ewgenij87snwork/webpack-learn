@@ -14,7 +14,7 @@ module.exports = (env) => {
 
         // "entry" -- where Webpack starts building app
         // for proper splicing of the paths
-        entry: path.resolve(__dirname, 'src', 'index.js'),
+        entry: path.resolve(__dirname, 'src', 'index.ts'),
 
         // tells Webpack where to output the bundle it creates and how to name it.
         output: {
@@ -27,5 +27,22 @@ module.exports = (env) => {
             // adds the built script to index.html on build
             new HtmlWebpackPlugin({ template: path.resolve(__dirname, 'public', 'index.html') })
         ],
+        module: {
+            rules: [
+                {
+                    test: /\.tsx?$/, // what files processing
+                    use: 'ts-loader', // name of loader
+                    exclude: /node_modules/, // what we NOT processing
+                },
+            ],
+        },
+
+        /*
+        to prevent writing file extension
+        example: import { Component } from './Component'
+        */
+        resolve: {
+            extensions: ['.tsx', '.ts', '.js'],
+        },
     }
 }
