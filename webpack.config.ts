@@ -1,8 +1,15 @@
-// for proper splicing of the paths
-const path = require('path');
-const HtmlWebpackPlugin =require('html-webpack-plugin');
-module.exports = (env) => {
-    return {
+import path from 'path';
+import HtmlWebpackPlugin from "html-webpack-plugin";
+import webpack from 'webpack';
+
+type Mode = 'production' | 'development';
+
+interface EnvVariables {
+    mode: Mode
+}
+
+export  default(env: EnvVariables) => {
+    const config: webpack.Configuration = {
         /* mode
         in package.json we put 'env':
           "scripts": {
@@ -25,7 +32,8 @@ module.exports = (env) => {
 
         plugins: [
             // adds the built script to index.html on build
-            new HtmlWebpackPlugin({ template: path.resolve(__dirname, 'public', 'index.html') })
+            new HtmlWebpackPlugin({ template: path.resolve(__dirname, 'public', 'index.html') }),
+            new webpack.ProgressPlugin()
         ],
         module: {
             rules: [
@@ -44,5 +52,7 @@ module.exports = (env) => {
         resolve: {
             extensions: ['.tsx', '.ts', '.js'],
         },
-    }
+    };
+
+    return config;
 }
