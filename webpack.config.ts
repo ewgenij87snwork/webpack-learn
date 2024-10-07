@@ -1,14 +1,19 @@
 import path from 'path';
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import webpack from 'webpack';
+import type { Configuration as DevServerConfiguration } from "webpack-dev-server";
 
 type Mode = 'production' | 'development';
 
 interface EnvVariables {
-    mode: Mode
+    mode: Mode,
+    port: number
 }
 
-export  default(env: EnvVariables) => {
+export default(env: EnvVariables) => {
+
+    const isDev = env.mode === 'development';
+
     const config: webpack.Configuration = {
         /* mode
         in package.json we put 'env':
@@ -33,7 +38,9 @@ export  default(env: EnvVariables) => {
         plugins: [
             // adds the built script to index.html on build
             new HtmlWebpackPlugin({ template: path.resolve(__dirname, 'public', 'index.html') }),
-            new webpack.ProgressPlugin()
+
+            // show % of progress. But can slow down creating build in Production
+            isDev && new webpack.ProgressPlugin()
         ],
         module: {
             rules: [
@@ -51,6 +58,11 @@ export  default(env: EnvVariables) => {
         */
         resolve: {
             extensions: ['.tsx', '.ts', '.js'],
+        },
+        devtool: isDev && 'inline-source-map', // for debug errors
+        devServer: isDev && {
+            port: env.port ?? 4500,
+            open: true // for immediately open in browser (on macOs not possible set some specific browser. Will open in default)
         },
     };
 
