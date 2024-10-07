@@ -1,6 +1,6 @@
 // for proper splicing of the paths
 const path = require('path');
-
+const HtmlWebpackPlugin =require('html-webpack-plugin');
 module.exports = (env) => {
     return {
         /* mode
@@ -21,6 +21,11 @@ module.exports = (env) => {
             path: path.resolve(__dirname, 'build'),
             filename: '[name].[contenthash].js', //[name] -- use standard name (main), [contenthash] -- add random symbols to prevent browser cashing
             clean: true //remove previous/old bundle
-        }
+        },
+
+        plugins: [
+            // adds the built script to index.html on build
+            new HtmlWebpackPlugin({ template: path.resolve(__dirname, 'public', 'index.html') })
+        ],
     }
 }
