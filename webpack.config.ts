@@ -5,7 +5,8 @@ import { BuildMode, BuildPaths } from "./config/build/type/type";
 
 interface EnvVariables {
     mode: BuildMode,
-    port: number
+    port: number,
+    analyzer?: boolean
 }
 
 export default (env: EnvVariables) => {
@@ -18,7 +19,8 @@ export default (env: EnvVariables) => {
     const config: webpack.Configuration = buildWebpack({
         port: env.port ?? 3000,
         mode: env.mode ?? 'development',
-        paths
+        paths,
+        analyzer: env.analyzer //if run `npm run build:prod -- --env analyzer=true`, then analyzer will be open in browser
     })
 
     return config;
