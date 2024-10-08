@@ -45,6 +45,10 @@ export default(env: EnvVariables) => {
         module: {
             rules: [
                 {
+                    test: /\.css$/i,
+                    use: ["style-loader", "css-loader"], // 'use' can be single or array
+                },
+                {
                     test: /\.tsx?$/, // what files processing
                     use: 'ts-loader', // name of loader
                     exclude: /node_modules/, // what we NOT processing
