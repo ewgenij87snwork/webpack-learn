@@ -2,6 +2,7 @@ import path from 'path';
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import webpack from 'webpack';
 import type { Configuration as DevServerConfiguration } from "webpack-dev-server";
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
 
 type Mode = 'production' | 'development';
 
@@ -10,9 +11,10 @@ interface EnvVariables {
     port: number
 }
 
-export default(env: EnvVariables) => {
+export default (env: EnvVariables) => {
 
     const isDev = env.mode === 'development';
+    const isProd = env.mode === 'production';
 
     const config: webpack.Configuration = {
         /* mode
@@ -40,15 +42,22 @@ export default(env: EnvVariables) => {
             new HtmlWebpackPlugin({ template: path.resolve(__dirname, 'public', 'index.html') }),
 
             // show % of progress. But can slow down creating build in Production
-            isDev && new webpack.ProgressPlugin()
-        ],
+            isDev && new webpack.ProgressPlugin(),
+
+            // I - for extract css into separate file on build
+            // set chunk name and set dir for css
+            isProd && new MiniCssExtractPlugin({
+                filename: 'css/[name].[contenthash:8].css',
+                chunkFilename: 'css/[name].[contenthash:8].css'
+            })
+        ].filter(Boolean),
         module: {
             rules: [
                 {
-                    test:  /\.s[ac]ss$/i,
+                    test: /\.s[ac]ss$/i,
                     use: [
-                        // Creates `style` nodes from JS strings
-                        "style-loader",
+                        // II - for extract css into separate file on build, we change 'style-loader' to MiniCssExtractPlugin.loader
+                        isDev ? 'style-loader' : MiniCssExtractPlugin.loader,
                         // Translates CSS into CommonJS
                         "css-loader",
                         // Compiles Sass to CSS
@@ -68,7 +77,11 @@ export default(env: EnvVariables) => {
         example: import { Component } from './Component'
         */
         resolve: {
-            extensions: ['.tsx', '.ts', '.js'],
+            extensions: [
+                '.tsx',
+                '.ts',
+                '.js'
+            ],
         },
         devtool: isDev && 'inline-source-map', // for debug errors
         devServer: isDev && {
