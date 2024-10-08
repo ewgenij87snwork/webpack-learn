@@ -45,8 +45,15 @@ export default(env: EnvVariables) => {
         module: {
             rules: [
                 {
-                    test: /\.css$/i,
-                    use: ["style-loader", "css-loader"], // 'use' can be single or array
+                    test:  /\.s[ac]ss$/i,
+                    use: [
+                        // Creates `style` nodes from JS strings
+                        "style-loader",
+                        // Translates CSS into CommonJS
+                        "css-loader",
+                        // Compiles Sass to CSS
+                        "sass-loader",
+                    ], // 'use' can be single or array and order is important
                 },
                 {
                     test: /\.tsx?$/, // what files processing
