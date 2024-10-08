@@ -26,7 +26,7 @@ export default(env: EnvVariables) => {
 
         // "entry" -- where Webpack starts building app
         // for proper splicing of the paths
-        entry: path.resolve(__dirname, 'src', 'index.ts'),
+        entry: path.resolve(__dirname, 'src', 'index.tsx'),
 
         // tells Webpack where to output the bundle it creates and how to name it.
         output: {
