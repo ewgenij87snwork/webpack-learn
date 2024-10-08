@@ -8,5 +8,8 @@ export function buildResolvers(options: BuildOptions): Configuration['resolve'] 
             '.ts',
             '.js'
         ],
+        alias: {
+            '@': options.paths.src
+        }
     }
 }
