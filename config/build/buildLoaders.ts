@@ -5,13 +5,22 @@ import { BuildOptions } from "./type/type";
 export function buildLoaders(options: BuildOptions): ModuleOptions['rules'] {
     const isDev = options.mode === 'development';
 
+    const cssLoaderWithModules = {
+        loader: "css-loader",
+        options: {
+            modules: {
+                localIdentName: isDev ? '[path][name]__[local]' : '[hash:base64:8]'
+            }
+        }
+    }
+
     const scssLoader = {
         test: /\.s[ac]ss$/i,
         use: [
             // II - for extract css into separate file on build, we change 'style-loader' to MiniCssExtractPlugin.loader
             isDev ? 'style-loader' : MiniCssExtractPlugin.loader,
             // Translates CSS into CommonJS
-            "css-loader",
+            cssLoaderWithModules,
             // Compiles Sass to CSS
             "sass-loader",
         ], // 'use' can be single or array and order is important
