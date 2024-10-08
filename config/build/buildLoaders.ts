@@ -5,6 +5,24 @@ import { BuildOptions } from "./type/type";
 export function buildLoaders(options: BuildOptions): ModuleOptions['rules'] {
     const isDev = options.mode === 'development';
 
+    const assetLoader = {
+        test: /\.(png|jpg|jpeg|gif)$/i,
+        type: 'asset/resource',
+    };
+
+    const svgrLoader = {
+        test: /\.svg$/i,
+        issuer: /\.[jt]sx?$/,
+        use: [
+            {
+                loader: '@svgr/webpack',
+                options: {
+                    icon: true,
+                }
+            }
+        ],
+    };
+
     const cssLoaderWithModules = {
         loader: "css-loader",
         options: {
@@ -33,7 +51,9 @@ export function buildLoaders(options: BuildOptions): ModuleOptions['rules'] {
     };
 
     return [
+        assetLoader,
         scssLoader,
-        tsLoader
+        tsLoader,
+        svgrLoader
     ];
 }
