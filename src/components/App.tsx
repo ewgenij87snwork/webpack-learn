@@ -7,9 +7,9 @@ import SvgSvg from '@/assets/svg.svg';
 
 
 
-function toDo (a: number) {
-    console.log(a)
-}
+// function toDo (a: number) {
+//     console.log(a)
+// }
 
 export const App = () => {
     const [count, setCount] = useState<number>(0);
@@ -29,7 +29,7 @@ export const App = () => {
     // }
 
 
-    toDo(4);
+    // toDo(4);
 
     return (
         <div>
@@ -39,7 +39,7 @@ export const App = () => {
                 <img width={64} height={64} src={jpgJpg} alt=""/>
             </div>
             <div>
-                <SvgSvg width={50} height={50}  fill={'green'}/>
+                <SvgSvg width={50} height={50}  fill={'red'}/>
             </div>
             <Link to={'/about'}>about</Link>
             <br/>
