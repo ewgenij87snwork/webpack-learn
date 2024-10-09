@@ -45,32 +45,31 @@ export function buildLoaders(options: BuildOptions): ModuleOptions['rules'] {
         ], // 'use' can be single or array and order is important
     };
 
-    // const tsLoader = {
-    //     test: /\.tsx?$/, // what files processing
-    //     use: 'ts-loader', // name of loader
-    //     exclude: /node_modules/, // what we NOT processing
-    // };
 
-    const tsLoader = {
-        exclude: /node_modules/, // what we NOT processing
-        test: /\.tsx?$/, // what files processing
-        use: [
-            {
-                loader: 'ts-loader',
-                options: {
-                    transpileOnly: true,
-                    getCustomTransformers: () => ({
-                        before: [isDev && ReactRefreshTypeScript()].filter(Boolean),
-                    }),
-                }
+    const babelLoader = {
+        test: /\.tsx?$/,
+        exclude: /node_modules/,
+        use: {
+            loader: "babel-loader",
+            options: {
+                presets: [
+                    '@babel/preset-env',
+                    '@babel/preset-typescript',
+                    [
+                        '@babel/preset-react',
+                        {
+                            runtime: isDev ? 'automatic' : 'classic',
+                        }
+                    ]
+                ]
             }
-        ]
-    };
+        }
+    }
 
     return [
         assetLoader,
         scssLoader,
-        tsLoader,
+        babelLoader,
         svgrLoader
     ];
 }
