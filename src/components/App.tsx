@@ -32,14 +32,14 @@ export const App = () => {
     // toDo(4);
 
     return (
-        <div>
-            <h1>PLATFORM={__PLATFORM__}</h1>
+        <div data-testid={'App'}>
+            <h1 data-testid={'Platform'}>PLATFORM={__PLATFORM__}</h1>
             <div>
                 <img width={64} height={64} src={pngPng} alt=""/>
                 <img width={64} height={64} src={jpgJpg} alt=""/>
             </div>
             <div>
-                <SvgSvg width={50} height={50}  fill={'red'}/>
+                <SvgSvg width={50} height={50}  fill={'green'}/>
             </div>
             <Link to={'/about'}>about</Link>
             <br/>
