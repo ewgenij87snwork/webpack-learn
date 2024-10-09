@@ -39,7 +39,7 @@ const {mode, paths} = options;
         example: import { Component } from './Component'
         */
         resolve: buildResolvers(options),
-        devtool: isDev && 'inline-source-map', // for debug errors
+        devtool: isDev ? 'eval-cheap-module-source-map' : 'source-map', // for debug errors
         devServer: isDev ? buildDevServer(options) : undefined,
     };
 }
