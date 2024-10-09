@@ -6,6 +6,7 @@ import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
 import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin";
 import path from "path";
+import CopyPlugin from "copy-webpack-plugin";
 
 export function buildPlugins({ mode, paths, analyzer, platform }: BuildOptions): Configuration['plugins'] {
     const isDev = mode === 'development';
@@ -36,7 +37,16 @@ export function buildPlugins({ mode, paths, analyzer, platform }: BuildOptions):
                 filename: 'css/[name].[contenthash:8].css',
                 chunkFilename: 'css/[name].[contenthash:8].css'
             })
-        )
+        );
+        // for translates files and other files, that should be copy to built
+        plugins.push(    new CopyPlugin({
+            patterns: [
+                {
+                    from: path.resolve(paths.public, 'locales'),
+                    to: path.resolve(paths.output, 'locales')
+                }
+            ],
+        }))
     }
 
     if (analyzer) {
