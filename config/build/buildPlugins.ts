@@ -5,6 +5,7 @@ import { BuildOptions } from "./type/type";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
 import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin";
+import path from "path";
 
 export function buildPlugins({ mode, paths, analyzer, platform }: BuildOptions): Configuration['plugins'] {
     const isDev = mode === 'development';
@@ -12,7 +13,7 @@ export function buildPlugins({ mode, paths, analyzer, platform }: BuildOptions):
 
     const plugins: Configuration['plugins'] = [
         // adds the built script to index.html on build
-        new HtmlWebpackPlugin({ template: paths.html }),
+        new HtmlWebpackPlugin({ template: paths.html, favicon: path.resolve(paths.public, 'favicon.ico') }),
         new DefinePlugin({
             __PLATFORM__: JSON.stringify(platform),
             __ENV__: JSON.stringify(mode),
