@@ -44,10 +44,23 @@ export function buildLoaders(options: BuildOptions): ModuleOptions['rules'] {
         ], // 'use' can be single or array and order is important
     };
 
+    // const tsLoader = {
+    //     test: /\.tsx?$/, // what files processing
+    //     use: 'ts-loader', // name of loader
+    //     exclude: /node_modules/, // what we NOT processing
+    // };
+
     const tsLoader = {
-        test: /\.tsx?$/, // what files processing
-        use: 'ts-loader', // name of loader
         exclude: /node_modules/, // what we NOT processing
+        test: /\.tsx?$/, // what files processing
+        use: [
+            {
+                loader: 'ts-loader',
+                options: {
+                    transpileOnly: true
+                }
+            }
+        ]
     };
 
     return [

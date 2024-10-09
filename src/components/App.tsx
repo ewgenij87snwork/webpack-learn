@@ -5,6 +5,12 @@ import pngPng from '@/assets/png.png';
 import jpgJpg from '@/assets/jpg.jpg';
 import SvgSvg from '@/assets/svg.svg';
 
+
+
+function toDo (a: number) {
+    console.log(a)
+}
+
 export const App = () => {
     const [count, setCount] = useState<number>(0);
 
@@ -18,9 +24,12 @@ export const App = () => {
     //     return <div>ISMOBILEPLATFORM</div>
     // }
 
-    if(__ENV__=== 'development') {
-        // addDevTools
-    }
+    // if(__ENV__=== 'development') {
+    //     // addDevTools
+    // }
+
+
+    toDo(4);
 
     return (
         <div>
